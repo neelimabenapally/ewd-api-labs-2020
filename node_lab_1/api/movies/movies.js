@@ -1,5 +1,5 @@
 export const moviesObject = {
-    "movies": [
+    "results": [
       {
         "title": "The Avengers",
         "poster_path": "/cezWGskPY5x7GaglTTRN4Fugfb8.jpg",
