@@ -1,56 +1,60 @@
 import './db';
 import dotenv from 'dotenv';
 import express from 'express';
-import {loadUsers, removeFavourites} from './seedData';
-import moviesRouter from './api/movies';
-import genresRouter from './api/genres';
 import bodyParser from 'body-parser';
-import session from 'express-session';
-import passport from './authenticate';
 import swaggerUi from 'swagger-ui-express';
 import YAML from 'yamljs';
-import usersRouter from './api/users'; 
+import listingRouter from './api/listing';
+import genresRouter from './api/genres';
+import reviewsRouter from './api/reviews';
+import favouritesRouter from './api/favourites';
+import usersRouter from './api/users';
+
 
 dotenv.config();
 
 const app = express();
 const port = process.env.PORT;
 const swaggerDocument = YAML.load('../movie-api-yaml/swagger.yaml');
+const jwt = require('express-jwt');
+const jwksRsa = require('jwks-rsa');
 
-const errorHandler=(err,req,res,next)=>{
-  console.log(err);
-  res.status(500).json({status: 500, message:"Internal Server Error"});
-}
+const checkJwt = jwt({
+  secret: jwksRsa.expressJwtSecret({
+    cache: true,
+    rateLimit: true,
+    jwksRequestsPerMinute: 5,
+    jwksUri: 'https://dev--wwrawg0.eu.auth0.com/.well-known/jwks.json',
+  }),
 
-if (process.env.seedDb) {
-  loadUsers();
-  removeFavourites();
-}
+  // Validate the audience and the issuer.
+  audience: 'https://dev--wwrawg0.eu.auth0.com/api/v2/',
+  issuer: 'https://dev--wwrawg0.eu.auth0.com/',
+  algorithms: ['RS256'],
+});
 
-//session middleware
-app.use(session({
-  secret: 'ilikecake',
-  resave: true,
-  saveUninitialized: true
-}));
+const errorHandler = (err, req, res, next) => {
+  // eslint-disable-next-line no-console
+  console.log(err.message);
+  res.status(500).json({ status: 500, message: 'Internal Server Error' });
+};
 
-app.use(passport.initialize());
-//configure body-parser
+// configure body-parser
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 
 app.use(express.static('public'));
 
-// app.use('/api/movies',  moviesRouter);
-app.use('/api/listing', passport.authenticate('jwt', {session: false}), moviesRouter);
-// app.use('/api/listing', moviesRouter);
-app.use('/api/movie', passport.authenticate('jwt', {session: false}), moviesRouter);
-app.use('/api/genres', genresRouter);
-app.use('/api/users', usersRouter);
+app.use('/api/favourites', checkJwt, favouritesRouter);
+app.use('/api/listing', checkJwt, listingRouter);
+app.use('/api/genres', checkJwt, genresRouter);
+app.use('/api/users', checkJwt, usersRouter);
+app.use('/api/reviews', checkJwt, reviewsRouter);
 app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use(errorHandler);
 
 app.listen(port, () => {
+  // eslint-disable-next-line no-console
   console.info(`Server running at ${port}`);
 });
