@@ -14,7 +14,6 @@
   "author": "neelimabenapally",
   "license": "ISC",
   "devDependencies": {
-    "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.7.0",
@@ -31,6 +30,7 @@
     "supertest": "^4.0.2"
   },
   "dependencies": {
+    "babel-cli": "^6.26.0",
     "babel-node": "0.0.1-security",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.19.0",
