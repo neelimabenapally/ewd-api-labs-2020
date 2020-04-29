@@ -18,7 +18,7 @@ dotenv.config();
 // eslint-disable-next-line import/prefer-default-export
 export const app = express();
 const port = process.env.PORT;
-// const swaggerDocument = YAML.load('../movie-api-yaml/swagger.yaml');
+const swaggerDocument = YAML.load('../movie-api-yaml/swagger.yaml');
 const jwt = require('express-jwt');
 const jwksRsa = require('jwks-rsa');
 
