@@ -65,7 +65,7 @@ app.use(express.static('public'));
 app.use('/api/favourites', checkJwt, favouritesRouter);
 app.use('/api/listing', checkJwt, listingRouter);
 app.use('/api/genres', checkJwt, genresRouter);
-app.use('/api/users', checkJwt, usersRouter);
+app.use('/api/users', usersRouter);
 app.use('/api/reviews', checkJwt, reviewsRouter);
 app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
