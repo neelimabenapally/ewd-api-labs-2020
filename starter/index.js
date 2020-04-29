@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import './db';
 import dotenv from 'dotenv';
 import express from 'express';
