@@ -32,7 +32,8 @@ const ListingSchema = new Schema({
 
 });
 
-ListingSchema.statics.findByListingDBId = (id) => this.findOne({ id });
-
+ListingSchema.statics.findByListingDBId = function (id) {
+  return this.findOne({ id });
+};
 
 export default mongoose.model('Listing', ListingSchema);

@@ -1,3 +1,6 @@
+/* eslint-disable linebreak-style */
+/* eslint-disable no-unused-vars */
+/* eslint-disable radix */
 import express from 'express';
 import Review from './reviewModel';
 
@@ -22,16 +25,14 @@ router.post('/:type/:id', async (req, res, next) => {
       mediaId: id,
       mediaType: type,
     },
-    [{ $set: reviewDetails }],
+    { $set: reviewDetails },
     {
       rawResult: true,
       upsert: true,
     },
     async (err, result) => result,
   );
-  res.status(200).send({ result: 'Added/Updated Review' });
-
-  // getReviews(type, id).then(reviews => res.status(200).send(reviews));
+  return res.status(200).send({ result: 'Added/Updated Review' });
 });
 
 router.get('/:type/:id', async (req, res, next) => {

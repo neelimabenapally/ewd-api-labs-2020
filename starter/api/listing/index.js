@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable radix */
 import express from 'express';
 import {
   getListing,
@@ -13,7 +15,6 @@ router.get('/:type/view/:id', (req, res, next) => {
   const result = {
     item: {},
     cast: {},
-    similar: {},
   };
 
   getDetail(req.params.type, id)

@@ -13,7 +13,9 @@ import usersRouter from './api/users';
 
 dotenv.config();
 
-const app = express();
+// const app = express();
+// eslint-disable-next-line import/prefer-default-export
+export const app = express();
 const port = process.env.PORT;
 const swaggerDocument = YAML.load('../movie-api-yaml/swagger.yaml');
 const jwt = require('express-jwt');
@@ -35,8 +37,7 @@ const checkJwt = jwt({
 
 const errorHandler = (err, req, res, next) => {
   // eslint-disable-next-line no-console
-  console.log(err.message);
-  res.status(500).json({ status: 500, message: 'Internal Server Error' });
+  res.status(err.status || 500).json({ status: err.status || 500, message: 'Internal Server Error', error: err.message });
 };
 
 // configure body-parser

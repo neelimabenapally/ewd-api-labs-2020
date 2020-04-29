@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable radix */
 import express from 'express';
 import Favourite from './favouriteModel';
 
@@ -33,7 +35,7 @@ router.post('/:type/:id', async (req, res, next) => {
     );
   }
 
-  res.status(200).send({ result: 'Success' });
+  return res.status(200).send({ result: 'Success' });
 });
 
 router.get('/:username/:type', async (req, res, next) => {
