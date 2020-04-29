@@ -16,6 +16,20 @@ dotenv.config();
 
 // const app = express();
 // eslint-disable-next-line import/prefer-default-export
+const allowCrossDomain = function(req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
+
+  // intercept OPTIONS method
+  if ('OPTIONS' == req.method) {
+    res.send(200);
+  }
+  else {
+    next();
+  }
+};
+
 export const app = express();
 const port = process.env.PORT;
 const swaggerDocument = YAML.load('./movie-api-yaml/swagger.yaml');
@@ -42,6 +56,7 @@ const errorHandler = (err, req, res, next) => {
 };
 
 // configure body-parser
+app.use(allowCrossDomain);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 
