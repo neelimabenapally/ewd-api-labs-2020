@@ -6,6 +6,7 @@ import Review from './reviewModel';
 
 const router = express.Router();
 
+//Posting a review 
 router.post('/:type/:id', async (req, res, next) => {
   const id = parseInt(req.params.id);
   const { type } = req.params;
@@ -19,7 +20,7 @@ router.post('/:type/:id', async (req, res, next) => {
     review: req.body.review,
   };
 
-  await Review.updateMany(
+  await Review.updateMany(// Update review if present or add new review
     {
       username: reviewDetails.username,
       mediaId: id,
@@ -35,6 +36,7 @@ router.post('/:type/:id', async (req, res, next) => {
   return res.status(200).send({ result: 'Added/Updated Review' });
 });
 
+//get reviews
 router.get('/:type/:id', async (req, res, next) => {
   const id = parseInt(req.params.id);
   const { type } = req.params;

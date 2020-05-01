@@ -19,11 +19,8 @@ if (process.env.NODE_ENV === 'test') {
   mongoose.set('useFindAndModify', false);
 }
 
-
 // Connect to database
 console.log(process.env.mongoDB);
-// mongoose.connect(process.env.mongoDB);
-// mongoose.set('useFindAndModify', false);
 const db = mongoose.connection;
 
 db.on('error', (err) => {

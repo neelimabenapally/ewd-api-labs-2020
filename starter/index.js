@@ -3,8 +3,6 @@ import './db';
 import dotenv from 'dotenv';
 import express from 'express';
 import bodyParser from 'body-parser';
-import swaggerUi from 'swagger-ui-express';
-import YAML from 'yamljs';
 import listingRouter from './api/listing';
 import genresRouter from './api/genres';
 import reviewsRouter from './api/reviews';
@@ -14,7 +12,6 @@ import usersRouter from './api/users';
 
 dotenv.config();
 
-// const app = express();
 // eslint-disable-next-line import/prefer-default-export
 const allowCrossDomain = function(req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');
@@ -32,7 +29,6 @@ const allowCrossDomain = function(req, res, next) {
 
 export const app = express();
 const port = process.env.PORT;
-const swaggerDocument = YAML.load('./movie-api-yaml/swagger.yaml');
 const jwt = require('express-jwt');
 const jwksRsa = require('jwks-rsa');
 
@@ -67,7 +63,6 @@ app.use('/api/listing', checkJwt, listingRouter);
 app.use('/api/genres', checkJwt, genresRouter);
 app.use('/api/users', usersRouter);
 app.use('/api/reviews', checkJwt, reviewsRouter);
-app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use(errorHandler);
 
